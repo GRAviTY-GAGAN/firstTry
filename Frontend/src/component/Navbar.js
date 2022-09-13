@@ -7,10 +7,10 @@ const Navbar = () => {
 
   return (
     <nav className='navbar'>
-    <div>
+    <div style={{cursor: 'default'}}>
       Payroll
     </div>
-    <div>Admin</div>
+    <div style={{cursor: 'default'}}>Admin</div>
     </nav>
   )
 }

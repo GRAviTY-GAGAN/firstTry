@@ -27,8 +27,8 @@ const Leave = () => {
     <div className='mainstyle' >
       <div className='heading' > Leave Management </div>
       {
-        allrequest.map((obj)=>(
-          <Card Obj={obj}/>
+        allrequest.map((obj, index)=>(
+          <Card key={index} Obj={obj}/>
         ))
       }
       {/* <Card/> */}

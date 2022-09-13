@@ -53,6 +53,7 @@
 .approve{
     border: 1px solid #6075fe;
     color: #6075fe;
+    background-color: white;
 }
 
 .reject:hover {

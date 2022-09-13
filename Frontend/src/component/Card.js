@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "antd";
 import moment from "moment";
 import "./Card.css";
-import "antd/dist/antd.css";
+import 'antd/dist/antd.min.css';
 
 function Card({ Obj }) {
   const [loading, setLoading] = useState(false);
@@ -78,7 +78,7 @@ function Card({ Obj }) {
 
         <Modal
           visible={visible}
-          title="Title"
+          title="Leave Details"
           onOk={handleOk}
           onCancel={handleCancel}
           footer={[

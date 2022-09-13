@@ -1,3 +1,22 @@
+.section{
+    width: 30vw;
+    height: 25vh;
+    font-weight: 500;
+    font-size: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    background-color:#F9F9F9;
+    border-radius: 10px;
+    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px; */
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    color: #354259;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .sections{
     width: 15vw;
     height: 7vh;
@@ -17,3 +36,15 @@
     background-color: #6075fe;
     border-radius: 10px;
 }
+
+.dashItems {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+
+
