@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Payroll.css";
-import { Link, Outlet } from "react-router-dom";
 import PayrollTable from "../SmallComponents/PayrollTable";
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,7 +22,7 @@ const Payroll = () => {
 
   return (
     <>
-      {userObj.employeeType == 1 ? (
+      {userObj?.employeeType == 1 ? (
         <>
           <div className="dashItems">
             <div
