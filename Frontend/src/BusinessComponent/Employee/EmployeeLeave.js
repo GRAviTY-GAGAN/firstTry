@@ -42,7 +42,9 @@ function EmployeeLeave() {
   const dispatch = useDispatch();
 
   const updateUserDetails = async() => {
-    let updatedDetails = await axios.get(`http://localhost:5000/employee/details/${userObj.id}`);
+    let updatedDetails = await axios.get(
+      `https://hr-dashboard-nimish.herokuapp.com/employee/details/${userObj.id}`
+    );
     dispatch({
       type: "login",
       payload: updatedDetails.data[0],
@@ -163,7 +165,7 @@ function EmployeeLeave() {
       ) {
         let response = axios({
           method: "post",
-          url: "http://localhost:5000/admin/leave",
+          url: "https://hr-dashboard-nimish.herokuapp.com/admin/leave",
           data: leaveObj,
         });
 
@@ -245,7 +247,7 @@ function EmployeeLeave() {
             {" "}
             {leaveObj.noofDaysLeaveRequired === ""
               ? "( Please select a start and end date ) "
-              : leaveObj.noofDaysLeaveRequired}{" "}
+              : leaveObj.noofDaysLeaveRequired}{" days"}
           </span>{" "}
           that will be till{" "}
           <span className="hightxt">
