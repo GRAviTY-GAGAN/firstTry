@@ -288,8 +288,8 @@ function EmployeeLeave() {
           minLength={60}
         />
       </Modal>
-      
-      <div>
+
+      <div className="previousLeaveEMp">
         <EmployeePreviousLeave pendingObj={responseObj} />
       </div>
     </>
