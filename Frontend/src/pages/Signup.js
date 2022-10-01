@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 
 import {
@@ -14,7 +14,7 @@ import {
   PASSWORD,
   CPASSWORD,
   ADDRESS,
-  PHONENO
+  PHONENO,
 } from "../redux/types";
 
 import { Button, Form, Input, Select } from "antd";
@@ -27,13 +27,13 @@ const Signup = () => {
   const [highlight, setHighlight] = useState(false);
   const [form] = Form.useForm();
 
-  const [ responseToNext, setResponseToNext ] = useState (false);
+  const [responseToNext, setResponseToNext] = useState(false);
 
-  const userObj = useSelector(state => state);
+  const userObj = useSelector((state) => state);
   const dispatch = useDispatch();
   console.log("From signUp useSelector", userObj);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch({
       type: SIGNIN,
     });
@@ -41,7 +41,7 @@ const Signup = () => {
   
   const verifySignup = async (userDataObj) => {
     console.log(userDataObj, "<--- user Object ");
-    
+
     let response = await axios({
       method: "post",
       // url: "https://hr-dashboard-nimish.herokuapp.com/auth/signup",
@@ -56,11 +56,11 @@ const Signup = () => {
     console.log("comming from Backend", response);
 
     dispatch({
-      type : ID,
-      id : response.data.id
-    })
+      type: ID,
+      id: response.data.id,
+    });
 
-    if(response.status == 200){
+    if (response.status === 200) {
       setResponseToNext(true);
     }
   };
@@ -95,7 +95,7 @@ const Signup = () => {
               });
             }}
             className={`${
-              userObj.employeeType == 1 ? "btn btn-active" : "btn"
+              userObj.employeeType === 1 ? "btn btn-active" : "btn"
             }`}
           >
             Admin
@@ -108,7 +108,7 @@ const Signup = () => {
               });
             }}
             className={`${
-              userObj.employeeType == 1 ? "btn " : "btn btn-active"
+              userObj.employeeType === 1 ? "btn " : "btn btn-active"
             }`}
           >
             Employee
@@ -331,10 +331,10 @@ const Signup = () => {
                 >
                   <motion.div whileTap={{ scale: 1.1 }}>Sign up</motion.div>
                 </Button>
-                {responseToNext == true && (
+                {responseToNext === true && (
                   <Navigate
                     to={
-                      userObj.employeeType == 1
+                      userObj.employeeType === 1
                         ? "/home/dashboard"
                         : "/home/employee/dashboard"
                     }

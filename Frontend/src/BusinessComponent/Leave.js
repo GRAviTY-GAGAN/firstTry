@@ -37,7 +37,7 @@ const Leave = () => {
 
   return (
     <>
-      {employeeType == 1 ? (
+      {employeeType === 1 ? (
         <div className="mainstyle">
           <div className="heading"> Leave Management </div>
           {stopSpinner == false ? (

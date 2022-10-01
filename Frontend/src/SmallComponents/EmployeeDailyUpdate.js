@@ -7,6 +7,7 @@ import { Input, DatePicker, Space, notification } from "antd";
 import "./EmployeeDailyUpdate.css";
 import "antd/dist/antd.css";
 import {TiTick} from "react-icons/ti";
+import Todo from "./Todo";
 // import useSelection from "antd/lib/table/hooks/useSelection";
 
 const { TextArea } = Input;
@@ -53,14 +54,14 @@ function EmployeeDailyUpdate() {
   }
 
   async function updateTaskCompleted(){
-    if(updateTaskObj.taskHeading != '' && updateTaskObj.taskDescription != '' && updateTaskObj.taskCompletedDate != ''){
+    if(updateTaskObj.taskHeading !== '' && updateTaskObj.taskDescription !== '' && updateTaskObj.taskCompletedDate !== ''){
       let res = await axios({
         method: "post",
         url: `http://localhost:5000/employee/updatetask/${userObj.id}`,
         data: updateTaskObj,
       });
-      console.log(res.status == 200);
-      if(res.status == 200){
+      console.log(res.status === 200);
+      if(res.status === 200){
         setupdateTaskObj( tempUpdateObj );
         notification.open({
           message: "Your task is updated !",
@@ -74,9 +75,8 @@ function EmployeeDailyUpdate() {
   }
 
   return (
-    <div className="empupdate">
-      <div> Task Assiged </div>
-      <div> Task Completed </div>
+    <div className="empupdate" >
+      
 
       <div className="updatetxt">
         <div

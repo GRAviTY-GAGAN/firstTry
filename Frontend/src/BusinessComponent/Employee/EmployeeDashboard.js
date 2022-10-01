@@ -7,6 +7,7 @@ import { Progress, Tooltip, Modal, Input, notification } from "antd";
 import { FcClock } from "react-icons/fc";
 import { TiTick } from "react-icons/ti";
 import "./EmployeeDashboard.css";
+import Todo from "../../SmallComponents/Todo";
 
 const {TextArea} = Input;
 
@@ -46,12 +47,15 @@ function EmployeeDashboard() {
 
   return (
     <>
-      <div>
+      <div className="empdashboard">
         <div className="empdash">
-          <div style={{ width: "55%", marginTop: "1rem" }}>
+          {/* <div style={{ width: "55%", marginTop: "1rem" }}>
             {" "}
             <EmployeeCalendar />{" "}
-          </div>
+          </div> */}
+           <div> 
+          <EmployeeDailyUpdate />
+        </div>
           <div style={{ display: "flex" }}>
             <Tooltip
               placement="leftTop"
@@ -101,9 +105,10 @@ function EmployeeDashboard() {
           </div>
         </div>
 
-        <div>
-          <EmployeeDailyUpdate />
-        </div>
+       <div>
+        <Todo />
+       </div>
+        
       </div>
 
       <Modal
