@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import EmployeeCalendar from "../../SmallComponents/EmployeeCalendar";
+import RaiseIssueModal from "../../SmallComponents/RaiseIssueModal";
 import EmployeeDailyUpdate from "../../SmallComponents/EmployeeDailyUpdate";
 
 import { Progress, Tooltip, Modal, Input, notification } from "antd";
@@ -8,8 +8,6 @@ import { FcClock } from "react-icons/fc";
 import { TiTick } from "react-icons/ti";
 import "./EmployeeDashboard.css";
 import Todo from "../../SmallComponents/Todo";
-
-const {TextArea} = Input;
 
 function EmployeeDashboard() {
   const userObj = useSelector((state) => state);
@@ -22,14 +20,6 @@ function EmployeeDashboard() {
     setRaiseIssueModal(true)
   };
 
-  const handleOk = () => {
-    setRaiseIssueModal(false);
-  }
-
-  const handleCancel = () => {
-    setRaiseIssueModal(false);
-  }
-
   const handleUpdate = () => {
     setTimeout(()=>{
       setRaiseIssueModal(false);
@@ -41,21 +31,13 @@ function EmployeeDashboard() {
 
   }
 
-  const handleIssue = (text) => {
-    alert(text);
-  }
-
   return (
     <>
       <div className="empdashboard">
         <div className="empdash">
-          {/* <div style={{ width: "55%", marginTop: "1rem" }}>
-            {" "}
-            <EmployeeCalendar />{" "}
-          </div> */}
-           <div> 
-          <EmployeeDailyUpdate />
-        </div>
+          <div>
+            <EmployeeDailyUpdate />
+          </div>
           <div style={{ display: "flex" }}>
             <Tooltip
               placement="leftTop"
@@ -105,13 +87,17 @@ function EmployeeDashboard() {
           </div>
         </div>
 
-       <div>
-        <Todo />
-       </div>
-        
+        <div>
+          <Todo />
+        </div>
       </div>
 
-      <Modal
+      <RaiseIssueModal
+        raiseIssueModal={raiseIssueModal}
+        setRaiseIssueModal={setRaiseIssueModal}
+      />
+
+      {/* <Modal
         title="This message will be sent to the admin"
         visible={raiseIssueModal}
         onOk={handleOk}
@@ -130,7 +116,7 @@ function EmployeeDashboard() {
           onChange={(e) => handleIssue(e.target.value)}
           minLength={60}
         />
-      </Modal>
+      </Modal> */}
     </>
     // Add pay day in calendar
     // Employee and admin dashboard should also show todays date

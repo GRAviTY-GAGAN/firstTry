@@ -33,7 +33,7 @@ const Leave = () => {
     fetchReq();
     console.log("user obj from leave.js --> ", userObj);
     setEmployeeType(userObj.employeeType);
-  }, []);
+  }, [allrequest]);
 
   return (
     <>
@@ -58,12 +58,15 @@ const Leave = () => {
                     <Spin size="large" />
                   </span>
                 </h1>
-                    {/* <Spin size="large" /> */}
+                {/* <Spin size="large" /> */}
               </div>
             </>
           ) : (
             <>
-              {allrequest != [] && allrequest?.map((obj) => <Card Obj={obj} />)}
+              {allrequest != [] &&
+                allrequest?.map((obj) => (
+                  <Card Obj={obj} fetchReq={fetchReq} />
+                ))}
             </>
           )}
         </div>

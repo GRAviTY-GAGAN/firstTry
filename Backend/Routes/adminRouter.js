@@ -23,6 +23,8 @@ adminRouter.route("/shift/:id").post(updateEmployeeShift);
 
 adminRouter.route("/deparatment/:id").get(getDeparatmentbyId);
 
+// Performance Message and shift update and bug of leave management.
+
 // <--------All Department Request--------------------------------------------------------------------------------------->
 async function getDeparatmentbyId(req, res) {
   // localhost:5000/admin/deparatment/Engineering(Department Name)
@@ -110,6 +112,9 @@ async function approveRequest(req, res) {
       { new : true }
     );
 
+    console.log( responseObj.noofDaysLeaveRequired );
+    console.log( responseObj);
+
     console.log("approve reqest", responseObj);
 
     const padilev =
@@ -125,25 +130,20 @@ async function approveRequest(req, res) {
       { id: responseObj.employeId },
       {
         $set: {
-
           // leavesTakenInMonth: levInMonth,
-          leavesTakenInMonth: responseObj.noofDaysLeaveRequired,
+          leavesTakenInMonth:
+            responseObj.leavesTakenInMonth + responseObj.noofDaysLeaveRequired,
           // responseObj.leavesTakenInMonth + responseObj.noofDaysLeaveRequired,
 
           // paidLeavesRemaining:  padilev,
-          paidLeavesRemaining:  responseObj.noofDaysLeaveRequired,
+          // paidLeavesRemaining: responseObj.noofDaysLeaveRequired,
           // responseObj.remainingLeaves - responseObj.noofDaysLeaveRequired,
         },
       },
-      { new : true }
+      { new: true }
     );
 
     console.log("approve req user", userObj);
-
-    // res.json({
-    //   leaveObj : responseObj,
-    //   userObj : userObj
-    // })
 
     res.json(responseObj);
 

@@ -1,24 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
+import RaiseIssueModal from "../../SmallComponents/RaiseIssueModal";
+
 import { BiRupee } from "react-icons/bi";
 import { FaEdit } from "react-icons/fa";
 import { VscWorkspaceUntrusted } from "react-icons/vsc";
-import { CgDanger } from "react-icons/cg";
-import { RiFileWarningLine } from "react-icons/ri";
 import "./EmployeePayroll.css";
 
 function EmployeePayroll() {
+  const [raiseIssueModal, setRaiseIssueModal] = useState(false);
   const userObj = useSelector((state) => state);
-  console.log(userObj);
 
   return (
     <div className="mainstyle">
-      {/* <div>
-        EmployeePayroll Working days leaves taken half days task Completed last
-        month sal performance your year pay monthly pay raise issue btn download
-        slip option daily task detail
-      </div> */}
-
       <div className="headingtxt">
         {" "}
         <span className="cardtxt"> Home / </span> Payroll Management{" "}
@@ -39,7 +34,11 @@ function EmployeePayroll() {
           </span>{" "}
           Edit
         </div>
-        <div className="btnpr raiseissuebtn ">
+
+        <div
+          className="btnpr raiseissuebtn"
+          onClick={() => setRaiseIssueModal(true)}
+        >
           <span>
             {" "}
             <VscWorkspaceUntrusted
@@ -54,9 +53,14 @@ function EmployeePayroll() {
         </div>
       </div>
 
+      <RaiseIssueModal
+        raiseIssueModal={raiseIssueModal}
+        setRaiseIssueModal={setRaiseIssueModal}
+      />
+
       <div
         className="empprstyle"
-        style={{ width: "100%", border: "1px solid black" }}
+        style={{ width: "100%"}}
       >
         <div style={{ width: "50%" }}>
           <h2>
@@ -70,16 +74,46 @@ function EmployeePayroll() {
             <span className="cardtxt"> Department :</span> {userObj.deparatment}{" "}
           </h3>
 
-          <div className="empprstyle">
+          <div className="empprstyle" style={{ width: "90%" }}>
+            <div className="cardpr">
+              <div className="cardtxt"> Salary credited </div>
+              <div className="cardamt">
+                {userObj.salaryCreditedThisMonth == "" ||
+                userObj.salaryCreditedThisMonth == undefined ||
+                userObj.salaryCreditedThisMonth == false
+                  ? "No"
+                  : "Yes"}
+              </div>
+            </div>
+            <div className="cardpr">
+              <div className="cardtxt">Half Day</div>
+              <div className="cardamt">
+                {userObj.PayrollMangement.halfDayTaken == ""
+                  ? "0"
+                  : userObj.PayrollMangement.halfDayTaken}
+              </div>
+            </div>
+          </div>
+
+          <div className="empprstyle" style={{ width: "90%" }}>
             <div className="cardpr">
               <div className="cardtxt">Leaves ( Month )</div>
-              <div className="cardamt">
-                {userObj.leavesTakenInMonth}
-              </div>
+              <div className="cardamt">{userObj.leavesTakenInMonth}</div>
             </div>
             <div className="cardpr">
               <div className="cardtxt">Leaves ( Year )</div>
               <div className="cardamt">{userObj.leavesTakenInYear}</div>
+            </div>
+          </div>
+
+          <div className="empprstyle" style={{ width: "90%" }}>
+            <div className="cardpr">
+              <div className="cardtxt">Leaves ( Paid )</div>
+              <div className="cardamt">{userObj.paidLeavesRemaining}</div>
+            </div>
+            <div className="cardpr">
+              <div className="cardtxt">Shift </div>
+              <div className="cardamt">{userObj.shiftOfCurrentMonth}</div>
             </div>
           </div>
         </div>
@@ -145,17 +179,6 @@ function EmployeePayroll() {
             </div>
           </div>
         </div>
-      </div>
-
-      <div>
-        <div> {userObj.paidLeavesRemaining} </div>
-        <div> {userObj.leavesTakenInMonth} </div>
-        <div> {userObj.leavesTakenInYear} </div>
-        <div> {userObj.shiftOfCurrentMonth} </div>
-
-        <div> {userObj.salaryCreditedThisMonth} </div>
-        <div> {userObj.PayrollMangement.halfDayTaken} </div>
-        <div> Months when salary not credited </div>
       </div>
     </div>
 

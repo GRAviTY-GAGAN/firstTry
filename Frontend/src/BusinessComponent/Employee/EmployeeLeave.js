@@ -4,9 +4,11 @@ import axios from "axios";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import EmployeePreviousLeave from "../../SmallComponents/EmployeePreviousLeave";
+import RaiseIssueModal from "../../SmallComponents/RaiseIssueModal";
 
-import { Input, DatePicker, Modal, notification, Spin } from "antd";
+import { Input, DatePicker, Modal, notification } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
+import { VscWorkspaceUntrusted } from "react-icons/vsc";
 import "antd/dist/antd.min.css";
 import "./EmployeeLeave.css";
 
@@ -20,7 +22,7 @@ function EmployeeLeave() {
     designation: "",
     deparatment: "",
     remainingLeaves: "",
-    leavesTakenInMonth: "",
+    leavesTakenInMonth: Number,
     isApproved: false,
     isRejected: false,
     reasonOfLeave: "",
@@ -36,7 +38,7 @@ function EmployeeLeave() {
   const [responseObj, setResponseObj] = useState({});
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  
+  const [raiseIssueModal, setRaiseIssueModal] = useState(false);
 
   const userObj = useSelector((state) => state);
   console.log("consoling userObj", userObj);
@@ -54,12 +56,9 @@ function EmployeeLeave() {
 
   useEffect(() => {
     updateUserDetails();
-    
   }, [responseObj]);
 
-  useEffect(() => {
-    
-  }, [leaveObj]);
+  useEffect(() => {}, [leaveObj]);
 
   const applyCliked = () => {
     showModal();
@@ -154,8 +153,6 @@ function EmployeeLeave() {
   const handleApplyLeave = async () => {
     console.log(leaveObj, "from handle Leave Fn");
 
-   
-
     try {
       let uniqueLeaveId = uuidv4();
       setLeaveObj((prevObj) => ({ ...prevObj, leaveId: uniqueLeaveId }));
@@ -183,17 +180,15 @@ function EmployeeLeave() {
       console.log(error.message);
     }
 
-     setTimeout(() => {
-       setVisible(false);
-     }, 100);
-
+    setTimeout(() => {
+      setVisible(false);
+    }, 100);
   };
 
   return (
     <>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div className="emplev">
-
           <div className="levdate">
             <RangePicker
               bordered={false}
@@ -209,18 +204,41 @@ function EmployeeLeave() {
           </div>
 
           <div className="infotxt">
-            <div>
-              Remaining Leaves -{" "}
-              <span className="hightxt"> {userObj.paidLeavesRemaining} </span>{" "}
+            <div
+              className="raiseIssueBtn"
+              onClick={() => setRaiseIssueModal(true)}
+            >
+              <span>
+                {" "}
+                <VscWorkspaceUntrusted
+                  style={{
+                    paddingTop: "7px",
+                    fontSize: "20px",
+                    fontWeight: "800",
+                  }}
+                />{" "}
+              </span>
+              Raise Issue{" "}
             </div>
+
             <div>
-              Leaves Taken This Month -{" "}
-              <span className="hightxt"> {userObj.leavesTakenInMonth} </span>
+              <div>
+                Remaining Leaves -{" "}
+                <span className="hightxt"> {userObj.paidLeavesRemaining} </span>{" "}
+              </div>
+              <div>
+                Leaves Taken This Month -{" "}
+                <span className="hightxt"> {userObj.leavesTakenInMonth} </span>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
+
+      <RaiseIssueModal
+        raiseIssueModal={raiseIssueModal}
+        setRaiseIssueModal={setRaiseIssueModal}
+      />
 
       <Modal
         visible={visible}
@@ -288,7 +306,6 @@ function EmployeeLeave() {
       <div className="previousLeaveEMp">
         <EmployeePreviousLeave pendingObj={responseObj} />
       </div>
-
     </>
   );
 }

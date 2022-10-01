@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Space, Modal, Button, Dropdown, Menu } from "antd";
+import { GiPayMoney, GiTakeMyMoney } from "react-icons/gi";
+import { MdOutlineAttachMoney } from 'react-icons/md'
 import axios from "axios";
 import {
   DownOutlined,
@@ -9,7 +11,6 @@ import {
 import "./PayrollTable.css";
 
 function PayrollTable({ clickedBtn }) {
-  
   let Obj = [];
   const [mainData, setMainData] = useState(Obj);
   const [allrequest, setAllRequest] = useState([]);
@@ -297,6 +298,46 @@ function PayrollTable({ clickedBtn }) {
                 readOnly
                 type="text"
                 value={getValue}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="pmcontainer">
+            <span className="material-symbols-outlined performanceIcon">
+              {/* work_history */}
+              <GiPayMoney />
+              {/* <GiTakeMyMoney />
+            <MdOutlineAttachMoney /> */}
+            </span>
+            <strong> Update Salary </strong>
+          </div>
+          <div className="econtainer">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                aligItem: "center",
+                width: "100%",
+                marginTop: "0.4rem",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "1.2rem",
+                  marginTop: "0.3rem",
+                  // color: "#A4A6B3",
+                  fontWeight:'400'
+                }}
+              >
+                Enter in Lakhs
+              </span>
+              <input
+                placeholder="  "
+                className="inputShift"
+                readOnly
+                type="text"
               />
             </div>
           </div>
