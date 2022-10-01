@@ -36,10 +36,12 @@ const Leave = () => {
 
   return (
     <>
-      {employeeType == 1 ? (
+      {employeeType === 1 ? (
         <div className="mainstyle">
           <div className="heading"> Leave Management </div>
-          {allrequest != [] && allrequest?.map((obj) => <Card Obj={obj} />)}
+          <div className="leaveCardsContainer">
+          {allrequest !== [] && allrequest?.map((obj) => <Card Obj={obj} />)}
+          </div>
         </div>
       ) : (
         <EmployeeLeave />

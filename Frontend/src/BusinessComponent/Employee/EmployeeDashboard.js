@@ -6,6 +6,7 @@ import EmployeeDailyUpdate from "../../SmallComponents/EmployeeDailyUpdate";
 import { Progress, Tooltip } from "antd";
 import { FcClock } from "react-icons/fc";
 import "./EmployeeDashboard.css";
+import Todo from "../../SmallComponents/Todo";
 
 function EmployeeDashboard() {
   const userObj = useSelector((state) => state);
@@ -17,12 +18,15 @@ function EmployeeDashboard() {
 
   return (
     <>
-      <div>
+      <div className="empdashboard">
         <div className="empdash">
-          <div style={{ width: "55%", marginTop: "1rem" }}>
+          {/* <div style={{ width: "55%", marginTop: "1rem" }}>
             {" "}
             <EmployeeCalendar />{" "}
-          </div>
+          </div> */}
+           <div> 
+          <EmployeeDailyUpdate />
+        </div>
           <div style={{ display: "flex" }}>
             <Tooltip
               placement="leftTop"
@@ -68,9 +72,9 @@ function EmployeeDashboard() {
           </div>
         </div>
 
-        <div> 
-          <EmployeeDailyUpdate />
-        </div>
+       <div>
+        <Todo />
+       </div>
         
       </div>
     </>
