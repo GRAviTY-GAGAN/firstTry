@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Navigate } from "react-router-dom";
+
 import {
   SIGNIN,
   ID,
@@ -37,15 +38,14 @@ const Signup = () => {
       type: SIGNIN,
     });
   }, [])
-
-  // useEffect(() => {}, [responseToNext]);
   
   const verifySignup = async (userDataObj) => {
     console.log(userDataObj, "<--- user Object ");
     
     let response = await axios({
       method: "post",
-      url: "https://hr-dashboard-nimish.herokuapp.com/auth/signup",
+      // url: "https://hr-dashboard-nimish.herokuapp.com/auth/signup",
+      url: "http://localhost:5000/auth/signup",
       data: userObj,
       headers: {
         "Content-Type": "application/json",
@@ -254,13 +254,31 @@ const Signup = () => {
                 },
               ]}
             >
-              <Input
+              {/* <Input
                 required={true}
                 placeholder="Enter your department"
-                onChange={(e) => {
-                  dispatch({ type: DEP, deparatment: e.target.value });
+                
+              /> */}
+
+              <Select
+                required={true}
+                style={{
+                  width: "100%",
                 }}
-              />
+                // onChange={(e) => {
+                //   dispatch({ type: DEP, deparatment: e.target.value });
+                // }}
+                onChange={(e) => {
+                  console.log(e, 'from inside select')
+                  dispatch({ type: DEP, deparatment: e });
+                }}
+                allowClear
+              >
+                <Option value="Engineering">Engineering</Option>
+                <Option value="Operations">Operations</Option>
+                <Option value="Accounts">Accounts</Option>
+                <Option value="Supply Chain">Supply Chain</Option>
+              </Select>
             </Form.Item>
 
             <Form.Item

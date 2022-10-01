@@ -2,23 +2,18 @@ import React, { useState, useEffect } from "react";
 import {
   Table,
   Tooltip,
-  Radio,
   Space,
   Modal,
-  Button,
   Dropdown,
   Menu,
   Progress,
 } from "antd";
 import {
   DownOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
   CaretUpOutlined,
   CaretDownOutlined
 } from "@ant-design/icons";
 import axios from "axios";
-import { motion } from "framer-motion";
 import "antd/dist/antd.min.css";
 import "./DashboardTableOne.css";
 
@@ -286,22 +281,6 @@ const DashboardTableOne = ({ clickedBtn }) => {
                 <button className="ups">< CaretUpOutlined onClick={increaseScore} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
                 <button className="downs"><CaretDownOutlined onClick={decreaseScore} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
                 </div>
-                {/* <div className="upDown">
-                  <motion.button
-                    whileTap={{ scale: 1.1 }}
-                    onClick={increaseScore}
-                    className="up"
-                  >
-                    <ArrowUpOutlined style={{ color: "#6ff16f" }} />
-                  </motion.button>{" "}
-                  <motion.button
-                    whileTap={{ scale: 1.1 }}
-                    onClick={decreaseScore}
-                    className="down"
-                  >
-                    <ArrowDownOutlined style={{ color: "red" }} />
-                  </motion.button>
-                </div> */}
               </p>
 
               <p className="parad">

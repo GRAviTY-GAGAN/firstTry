@@ -5,7 +5,7 @@ import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import EmployeePreviousLeave from "../../SmallComponents/EmployeePreviousLeave";
 
-import { Input, DatePicker, Modal, notification } from "antd";
+import { Input, DatePicker, Modal, notification, Spin } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import "antd/dist/antd.min.css";
 import "./EmployeeLeave.css";
@@ -36,12 +36,13 @@ function EmployeeLeave() {
   const [responseObj, setResponseObj] = useState({});
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  
 
   const userObj = useSelector((state) => state);
   console.log("consoling userObj", userObj);
   const dispatch = useDispatch();
 
-  const updateUserDetails = async() => {
+  const updateUserDetails = async () => {
     let updatedDetails = await axios.get(
       `https://hr-dashboard-nimish.herokuapp.com/employee/details/${userObj.id}`
     );
@@ -49,12 +50,14 @@ function EmployeeLeave() {
       type: "login",
       payload: updatedDetails.data[0],
     });
-    console.log(updatedDetails.data[0], 'from useEffect');
-  }
 
-  useEffect(()=>{
+    console.log(updatedDetails.data[0], "from useEffect");
+  };
+
+  useEffect(() => {
     updateUserDetails();
-  }, [])
+    
+  }, []);
 
   const applyCliked = () => {
     showModal();
@@ -70,7 +73,7 @@ function EmployeeLeave() {
     setTimeout(() => {
       setLoading(false);
       setVisible(false);
-    }, 3000);
+    }, 200);
   };
 
   const handleCancel = () => {
@@ -108,7 +111,6 @@ function EmployeeLeave() {
   };
 
   const handleReasoneOfLeave = (text) => {
-    // For Time Being Untill Project get integrated with reduxs
     setLeaveObj((prevObj) => ({ ...prevObj, reasonOfLeave: text }));
     setLeaveObj((prevObj) => ({
       ...prevObj,
@@ -152,6 +154,8 @@ function EmployeeLeave() {
   const handleApplyLeave = async () => {
     console.log(leaveObj, "from handle Leave Fn");
 
+   
+
     try {
       let uniqueLeaveId = uuidv4();
       setLeaveObj((prevObj) => ({ ...prevObj, leaveId: uniqueLeaveId }));
@@ -165,28 +169,35 @@ function EmployeeLeave() {
       ) {
         let response = axios({
           method: "post",
-          url: "https://hr-dashboard-nimish.herokuapp.com/admin/leave",
+          // url: "https://hr-dashboard-nimish.herokuapp.com/admin/leave",
+          url: "http://localhost:5000/admin/leave",
           data: leaveObj,
         });
 
         console.log((await response).status === 200, "response from backend");
 
         (await response).status === 200 && openNotification("bottomLeft");
+
+
         setResponseObj((await response).data);
 
-        setTimeout(() => {
-          setVisible(false);
-        }, 1000);
+        
       }
     } catch (error) {
       console.log(error.message);
     }
+
+     setTimeout(() => {
+       setVisible(false);
+     }, 100);
+
   };
 
   return (
     <>
-      <div style={{width:'100%', display:'flex', justifyContent:'center'}} >
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div className="emplev">
+
           <div className="levdate">
             <RangePicker
               bordered={false}
@@ -211,6 +222,7 @@ function EmployeeLeave() {
               <span className="hightxt"> {userObj.leavesTakenInMonth} </span>
             </div>
           </div>
+
         </div>
       </div>
 
@@ -247,7 +259,8 @@ function EmployeeLeave() {
             {" "}
             {leaveObj.noofDaysLeaveRequired === ""
               ? "( Please select a start and end date ) "
-              : leaveObj.noofDaysLeaveRequired}{" days"}
+              : leaveObj.noofDaysLeaveRequired}
+            {" days"}
           </span>{" "}
           that will be till{" "}
           <span className="hightxt">
@@ -275,7 +288,7 @@ function EmployeeLeave() {
           minLength={60}
         />
       </Modal>
-
+      
       <div>
         <EmployeePreviousLeave pendingObj={responseObj} />
       </div>

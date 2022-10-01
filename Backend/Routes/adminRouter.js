@@ -19,8 +19,11 @@ adminRouter.route("/leave/:id").post(updateRejectionMessage);
 
 adminRouter.route("/leave/approve/:id").post(approveRequest);
 
+adminRouter.route("/shift/:id").post(updateEmployeeShift);
+
 adminRouter.route("/deparatment/:id").get(getDeparatmentbyId);
 
+// <--------All Department Request--------------------------------------------------------------------------------------->
 async function getDeparatmentbyId(req, res) {
   // localhost:5000/admin/deparatment/Engineering(Department Name)
   let departmentName = req.params.id;
@@ -33,6 +36,7 @@ async function getDeparatmentbyId(req, res) {
   }
 }
 
+// <--------All Leave Request---------------------------------------------------------------------------->
 async function allLeaves(req, res) {
   console.log("Request has came");
   try {
@@ -47,7 +51,7 @@ async function allLeaves(req, res) {
 async function addLeave(req, res) {
   console.log("Data Came from post method Leave", req.body);
   let data = req.body;
-  let addnewLeave = await LeaveModel.create(data);
+  let addnewLeave = await LeaveModel.create(data, { new : true });
   res.send(addnewLeave);
 }
 
@@ -63,7 +67,7 @@ async function getLeavesFromEmpId(req, res) {
     console.log(error);
     res.json({
       source: "from getLeavesFromEmpId",
-      errorObj : error
+      errorObj: error,
     });
   }
 }
@@ -104,8 +108,8 @@ async function approveRequest(req, res) {
       { leaveId: uniqueLeaveId },
       { $set: { isApproved: true, isPending: false } }
     );
-    
-    console.log('approve reqest', responseObj)
+
+    console.log("approve reqest", responseObj);
 
     // leaves takend in the year remaining.....
     let userObj = await UserModel.findOneAndUpdate(
@@ -113,14 +117,14 @@ async function approveRequest(req, res) {
       {
         $set: {
           leavesTakenInMonth: responseObj.noofDaysLeaveRequired,
-            // responseObj.leavesTakenInMonth + responseObj.noofDaysLeaveRequired,
-          paidLeavesRemaining: responseObj.noofDaysLeaveRequired
-            // responseObj.remainingLeaves - responseObj.noofDaysLeaveRequired,
+          // responseObj.leavesTakenInMonth + responseObj.noofDaysLeaveRequired,
+          paidLeavesRemaining: responseObj.noofDaysLeaveRequired,
+          // responseObj.remainingLeaves - responseObj.noofDaysLeaveRequired,
         },
       }
     );
 
-    console.log('approve req user', userObj);
+    console.log("approve req user", userObj);
 
     // res.json({
     //   leaveObj : responseObj,
@@ -129,12 +133,24 @@ async function approveRequest(req, res) {
 
     res.json(responseObj);
 
-
-    console.log("userObject after updating the leave",userObj);
-
+    console.log("userObject after updating the leave", userObj);
   } catch (error) {
     console.log(error);
   }
+}
+
+//<----------Update Employee Shift------------------------------------------------------------------------------------------------------->
+async function updateEmployeeShift(req, res) {
+  let empId = req.params.id;
+  let userShift = req.body.shift;
+
+  let response = await UserModel.findOneAndUpdate(
+    { id: empId },
+    { $set: { shiftOfCurrentMonth: userShift } },
+    // {new : true}
+  );
+  
+  res.json(response);
 }
 
 module.exports = adminRouter;
