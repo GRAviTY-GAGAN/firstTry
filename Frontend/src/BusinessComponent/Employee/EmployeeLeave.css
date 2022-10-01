@@ -12,6 +12,14 @@
   width: 90%;
 }
 
+.previousLeaveEMp {
+  /* border: 1px solid grey; */
+  height: 68vh;
+  /* max-width: 75vw; */
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
 .levdate {
   width: 50%;
   display: flex;
