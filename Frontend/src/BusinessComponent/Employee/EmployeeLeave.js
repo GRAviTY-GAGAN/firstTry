@@ -276,7 +276,7 @@ function EmployeeLeave() {
         />
       </Modal>
 
-      <div>
+      <div className="previousLeaveEMp">
         <EmployeePreviousLeave pendingObj={responseObj} />
       </div>
     </>
