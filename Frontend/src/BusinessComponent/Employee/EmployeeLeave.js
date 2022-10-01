@@ -50,14 +50,16 @@ function EmployeeLeave() {
       type: "login",
       payload: updatedDetails.data[0],
     });
-
-    console.log(updatedDetails.data[0], "from useEffect");
   };
 
   useEffect(() => {
     updateUserDetails();
     
-  }, []);
+  }, [responseObj]);
+
+  useEffect(() => {
+    
+  }, [leaveObj]);
 
   const applyCliked = () => {
     showModal();
@@ -81,8 +83,6 @@ function EmployeeLeave() {
   };
 
   const handleCalendarChange = (start, end) => {
-    console.log(moment(start[0]?._d).format("Do MM YYYY"), "from moment");
-    console.log(moment(start[1]?._d).format("Do MM YYYY"), "from moment");
     setLeaveObj((leaveObj) => ({
       ...leaveObj,
       dateOfLeave: moment(start[0]?._d).format("DD MMM YYYY"),
@@ -177,11 +177,7 @@ function EmployeeLeave() {
         console.log((await response).status === 200, "response from backend");
 
         (await response).status === 200 && openNotification("bottomLeft");
-
-
         setResponseObj((await response).data);
-
-        
       }
     } catch (error) {
       console.log(error.message);
@@ -292,6 +288,7 @@ function EmployeeLeave() {
       <div>
         <EmployeePreviousLeave pendingObj={responseObj} />
       </div>
+
     </>
   );
 }

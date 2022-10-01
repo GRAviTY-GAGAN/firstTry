@@ -106,22 +106,36 @@ async function approveRequest(req, res) {
 
     let responseObj = await LeaveModel.findOneAndUpdate(
       { leaveId: uniqueLeaveId },
-      { $set: { isApproved: true, isPending: false } }
+      { $set: { isApproved: true, isPending: false } },
+      { new : true }
     );
 
     console.log("approve reqest", responseObj);
+
+    const padilev =
+      responseObj.remainingLeaves - responseObj.noofDaysLeaveRequired <= 0
+        ? 0
+        : responseObj.remainingLeaves - responseObj.noofDaysLeaveRequired;  
+
+    const levInMonth =
+      responseObj.leavesTakenInMonth + responseObj.noofDaysLeaveRequired;
 
     // leaves takend in the year remaining.....
     let userObj = await UserModel.findOneAndUpdate(
       { id: responseObj.employeId },
       {
         $set: {
+
+          // leavesTakenInMonth: levInMonth,
           leavesTakenInMonth: responseObj.noofDaysLeaveRequired,
           // responseObj.leavesTakenInMonth + responseObj.noofDaysLeaveRequired,
-          paidLeavesRemaining: responseObj.noofDaysLeaveRequired,
+
+          // paidLeavesRemaining:  padilev,
+          paidLeavesRemaining:  responseObj.noofDaysLeaveRequired,
           // responseObj.remainingLeaves - responseObj.noofDaysLeaveRequired,
         },
-      }
+      },
+      { new : true }
     );
 
     console.log("approve req user", userObj);
@@ -138,6 +152,7 @@ async function approveRequest(req, res) {
     console.log(error);
   }
 }
+
 
 //<----------Update Employee Shift------------------------------------------------------------------------------------------------------->
 async function updateEmployeeShift(req, res) {
