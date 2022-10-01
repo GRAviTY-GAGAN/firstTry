@@ -23,6 +23,8 @@ adminRouter.route("/shift/:id").post(updateEmployeeShift);
 
 adminRouter.route("/deparatment/:id").get(getDeparatmentbyId);
 
+// Performance Message and shift update and bug of leave management.
+
 // <--------All Department Request--------------------------------------------------------------------------------------->
 async function getDeparatmentbyId(req, res) {
   // localhost:5000/admin/deparatment/Engineering(Department Name)
@@ -106,30 +108,42 @@ async function approveRequest(req, res) {
 
     let responseObj = await LeaveModel.findOneAndUpdate(
       { leaveId: uniqueLeaveId },
-      { $set: { isApproved: true, isPending: false } }
+      { $set: { isApproved: true, isPending: false } },
+      { new : true }
     );
 
+    console.log( responseObj.noofDaysLeaveRequired );
+    console.log( responseObj);
+
     console.log("approve reqest", responseObj);
+
+    const padilev =
+      responseObj.remainingLeaves - responseObj.noofDaysLeaveRequired <= 0
+        ? 0
+        : responseObj.remainingLeaves - responseObj.noofDaysLeaveRequired;  
+
+    const levInMonth =
+      responseObj.leavesTakenInMonth + responseObj.noofDaysLeaveRequired;
 
     // leaves takend in the year remaining.....
     let userObj = await UserModel.findOneAndUpdate(
       { id: responseObj.employeId },
       {
         $set: {
-          leavesTakenInMonth: responseObj.noofDaysLeaveRequired,
+          // leavesTakenInMonth: levInMonth,
+          leavesTakenInMonth:
+            responseObj.leavesTakenInMonth + responseObj.noofDaysLeaveRequired,
           // responseObj.leavesTakenInMonth + responseObj.noofDaysLeaveRequired,
-          paidLeavesRemaining: responseObj.noofDaysLeaveRequired,
+
+          // paidLeavesRemaining:  padilev,
+          // paidLeavesRemaining: responseObj.noofDaysLeaveRequired,
           // responseObj.remainingLeaves - responseObj.noofDaysLeaveRequired,
         },
-      }
+      },
+      { new: true }
     );
 
     console.log("approve req user", userObj);
-
-    // res.json({
-    //   leaveObj : responseObj,
-    //   userObj : userObj
-    // })
 
     res.json(responseObj);
 
@@ -138,6 +152,7 @@ async function approveRequest(req, res) {
     console.log(error);
   }
 }
+
 
 //<----------Update Employee Shift------------------------------------------------------------------------------------------------------->
 async function updateEmployeeShift(req, res) {

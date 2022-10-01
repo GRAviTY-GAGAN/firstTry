@@ -62,8 +62,6 @@
 .empprstyle {
    display: flex;
    justify-content: space-between;
-   /* align-items: center; */
-   /* border: 1px solid red; */
    margin-top: 0.8rem;
    width: 100%;
 }
@@ -104,7 +102,6 @@
    font-weight: 600;
    width: 100%;
    font-size: 16px;
-   /* border: 1px solid red; */
    display: flex;
    justify-content: center;
    align-items: center;
@@ -115,7 +112,6 @@
    justify-content: space-around;
    width: 100%;
    padding: 0.8rem;
-   /* border: 1px solid red; */
 }
 
 .longcardpr {

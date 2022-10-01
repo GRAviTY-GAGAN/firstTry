@@ -16,6 +16,7 @@ import { Modal, Spin } from "antd";
 
 function EmployeePreviousLeave({ pendingObj }) {
   console.log(pendingObj, "from leave testing in previousleaves");
+
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState([]);
   const [idx, setIdx] = useState(0);
@@ -46,7 +47,7 @@ function EmployeePreviousLeave({ pendingObj }) {
         console.log(error);
       }
     })();
-  }, [pendingObj]);
+  });
 
   const showModal = () => {
     setVisible(true);
