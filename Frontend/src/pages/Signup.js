@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
+
 import {
   SIGNIN,
   ID,
@@ -36,17 +37,15 @@ const Signup = () => {
     dispatch({
       type: SIGNIN,
     });
-  }, []);
-
-  // useEffect(() => {}, [responseToNext]);
-
+  }, [])
+  
   const verifySignup = async (userDataObj) => {
     console.log(userDataObj, "<--- user Object ");
 
     let response = await axios({
       method: "post",
       // url: "https://hr-dashboard-nimish.herokuapp.com/auth/signup",
-      url: 'http://localhost:5000/auth/signup',
+      url: "http://localhost:5000/auth/signup",
       data: userObj,
       headers: {
         "Content-Type": "application/json",
@@ -255,12 +254,22 @@ const Signup = () => {
                 },
               ]}
             >
+              {/* <Input
+                required={true}
+                placeholder="Enter your department"
+                
+              /> */}
+
               <Select
-              required={true}
+                required={true}
                 style={{
                   width: "100%",
                 }}
+                // onChange={(e) => {
+                //   dispatch({ type: DEP, deparatment: e.target.value });
+                // }}
                 onChange={(e) => {
+                  console.log(e, 'from inside select')
                   dispatch({ type: DEP, deparatment: e });
                 }}
                 allowClear
