@@ -5,6 +5,10 @@ const { UserModel } = require("../UserModel");
 
 const adminRouter = express.Router();
 
+// Gives Employee Details on department
+adminRouter.route("/deparatment/:id").get(getDeparatmentbyId);
+
+
 // Gives all leaves
 adminRouter.route("/leave").get(allLeaves);
 
@@ -17,13 +21,58 @@ adminRouter.route("/leave/:id").get(getLeavesFromEmpId);
 //For Updating rejection message and making isRejected flag true
 adminRouter.route("/leave/:id").post(updateRejectionMessage);
 
+// should approve and make changes in 
+// leaves taken in the month & leaves taken in the year 
 adminRouter.route("/leave/approve/:id").post(approveRequest);
 
-adminRouter.route("/shift/:id").post(updateEmployeeShift);
-
-adminRouter.route("/deparatment/:id").get(getDeparatmentbyId);
 
 // Performance Message and shift update and bug of leave management.
+adminRouter.route("/shift/:id").post(updateEmployeeShift);
+adminRouter.route("/performance/:id").post(updatePerformance);
+
+
+// salary update 
+adminRouter.route("/salary/:id").post( updateEmployeeSalary );
+
+async function updateEmployeeSalary(req, res){
+  let empId = req.params.id;
+  let salary = req.body.salary * 100000;
+
+  let responseObj = await UserModel.findOneAndUpdate(
+    { id: empId },
+    {
+      $set: {
+        'PayrollMangement.salary' : salary
+      },
+    },
+    { new: true }
+  );
+  
+  res.json( responseObj );
+
+}
+
+
+async function updatePerformance(req, res){
+  let empId = req.params.id;
+  let dataObj = req.body;
+
+  let performanceScore = Math.ceil((dataObj.performanceScore / 40) * 100);
+
+  let responseObj = await UserModel.findOneAndUpdate(
+    { id: empId },
+    {
+      $set: {
+        performanceMessage: dataObj.performanceMessage,
+        performanceOfPerviousMonth : performanceScore
+      },
+    },
+    { new: true }
+  );
+
+  res.json(responseObj)
+
+}
 
 // <--------All Department Request--------------------------------------------------------------------------------------->
 async function getDeparatmentbyId(req, res) {
@@ -162,7 +211,7 @@ async function updateEmployeeShift(req, res) {
   let response = await UserModel.findOneAndUpdate(
     { id: empId },
     { $set: { shiftOfCurrentMonth: userShift } },
-    // {new : true}
+    {new : true}
   );
   
   res.json(response);
