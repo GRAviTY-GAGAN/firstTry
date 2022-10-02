@@ -5,6 +5,7 @@ const employeeRouter = express.Router();
 
 employeeRouter.route("/details/:id").get(getEmpByDetails);
 employeeRouter.route("/updatetask/:id").post(updateUserTask);
+employeeRouter.route("/updatetodo/:id").post(updateTodo);
 
 async function getEmpByDetails(req, res) {
   let empId = req.params.id;
@@ -59,6 +60,20 @@ async function updateCompletedTask(empId, newUpdatedtask) {
     }
   );
   return newRes;
+}
+
+async function updateTodo(req, res){
+  let empId = req.params.id;
+  let todoObj = req.body;
+  console.log(todoObj);
+
+  let responseObj = await UserTaskModel.findOneAndUpdate({ employeId : empId }, {
+    $push : {
+      todoArr : todoObj,
+    }
+  } ,{ new:true });
+
+  res.json(responseObj);
 }
 
 module.exports = employeeRouter;

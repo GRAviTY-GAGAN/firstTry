@@ -7,11 +7,12 @@ import {
   Dropdown,
   Menu,
   Progress,
+  notification,
 } from "antd";
 import {
   DownOutlined,
   CaretUpOutlined,
-  CaretDownOutlined
+  CaretDownOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
 import "antd/dist/antd.min.css";
@@ -24,6 +25,8 @@ const DashboardTableOne = ({ clickedBtn }) => {
   const [getValue, setGetValue] = useState("");
   const [employeeDetails, setEmployeeDetails] = useState({});
   const [score, setScore] = useState(0);
+  const [currentEmpId, setCurrentEmpId] = useState("");
+  const [performanceMessage, setPerformanceMessage] = useState("");
 
   const increaseScore = () => {
     if (score < 10) {
@@ -41,15 +44,18 @@ const DashboardTableOne = ({ clickedBtn }) => {
     console.log(record);
     setVisible(true);
     setEmployeeDetails(record);
+    setCurrentEmpId(record.id);
   };
 
   const updateDetails = () => {
-    setEmployeeDetails({
-      ...employeeDetails,
-      shift: getValue,
-      remainingLeaves: 110,
-    });
-    console.log(employeeDetails, "From Update");
+    // setEmployeeDetails({
+    //   ...employeeDetails,
+    //   shift: getValue,
+    //   remainingLeaves: 110,
+    // });
+    // console.log(employeeDetails, "From Update");
+
+    updatePerformanceMessage(performanceMessage);
     setVisible(false);
   };
 
@@ -97,7 +103,7 @@ const DashboardTableOne = ({ clickedBtn }) => {
     },
     {
       title: "Shift",
-      dataIndex: "leavesTakenInMonth",
+      dataIndex: "leavesTakeInTheMonth",
       key: "key",
     },
   ];
@@ -134,19 +140,19 @@ const DashboardTableOne = ({ clickedBtn }) => {
       case 1:
         return "Engineering";
       case 2:
-        return "Product";
+        return "Operations";
       case 3:
-        return "HR";
+        return "Accounts";
       case 4:
-        return "Product";
+        return "Supply Chain";
       default:
         return "Engineering";
-
-      // HR Product
     }
   };
 
   const fetchRequest = async () => {
+    setLoading(true);
+
     let deparatmentName = getDeparatmentName(clickedBtn);
     let response = await axios({
       method: "get",
@@ -154,16 +160,43 @@ const DashboardTableOne = ({ clickedBtn }) => {
     });
     console.log("from frontend Engineering", response.data);
     setAllRequest(response.data);
+    response.status == 200 && setLoading(false);
   };
-
   useEffect(() => {
     fetchRequest();
   }, [clickedBtn]);
+
+  const openNotificationWithIcon = (type, mes, des) => {
+    notification[type]({
+      message: mes,
+      description: des,
+    });
+  };
+
+  async function updatePerformanceMessage(text) {
+    let responseObj = await axios({
+      method: "post",
+      url: `http://localhost:5000/admin/performance/${currentEmpId}`,
+      data: {
+        performanceMessage: text,
+        performanceScore: 35,
+      },
+    });
+
+    responseObj.status == 200
+      ? openNotificationWithIcon(
+          "success",
+          "Performance Message Update",
+          ` Performance Message to Employee ${currentEmpId} has been updated`
+        )
+      : <></>;
+  }
 
   return (
     <div className="dtoc">
       <div>
         <Table
+          loading={loading}
           style={{ padding: "5px" }}
           dataSource={allrequest}
           columns={columns}
@@ -267,9 +300,8 @@ const DashboardTableOne = ({ clickedBtn }) => {
               </div>
             </div>
             <div className="progressContainer">
-              <p className="parad" style={{marignBottom: '12px'}}>
+              <p className="parad" style={{ marignBottom: "12px" }}>
                 <strong>Rate {employeeDetails.firstName}: </strong>
-                
 
                 <input
                   className="inputRate"
@@ -277,9 +309,31 @@ const DashboardTableOne = ({ clickedBtn }) => {
                   type="number"
                   readOnly
                 />
-                <div className="upsdowns"  >
-                <button className="ups">< CaretUpOutlined onClick={increaseScore} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
-                <button className="downs"><CaretDownOutlined onClick={decreaseScore} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
+                <div className="upsdowns">
+                  <button className="ups">
+                    <CaretUpOutlined
+                      onClick={increaseScore}
+                      style={{
+                        height: "1.2rem",
+                        fontSize: "20px",
+                        textAlign: "center",
+                        color: "#6ff16f",
+                        cursor: "default",
+                      }}
+                    />
+                  </button>
+                  <button className="downs">
+                    <CaretDownOutlined
+                      onClick={decreaseScore}
+                      style={{
+                        height: "1.2rem",
+                        fontSize: "20px",
+                        textAlign: "center",
+                        color: "red",
+                        cursor: "default",
+                      }}
+                    />
+                  </button>
                 </div>
               </p>
 
@@ -289,9 +343,13 @@ const DashboardTableOne = ({ clickedBtn }) => {
                   {employeeDetails.tasksCompletedInMonth}
                 </div>
               </p>
-              <p style={{marginBottom: '0'}}>
+              <p style={{ marginBottom: "0" }}>
                 <strong>Performance message:</strong>{" "}
-                <textarea className="inputMessage" type="text" />
+                <textarea
+                  className="inputMessage"
+                  type="text"
+                  onChange={(e) => setPerformanceMessage(e.target.value)}
+                />
               </p>
             </div>
           </div>

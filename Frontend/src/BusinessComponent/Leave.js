@@ -62,12 +62,12 @@ const Leave = () => {
               </div>
             </>
           ) : (
-            <>
+            <div style={{ height: "65vh", overflow : 'scroll'}}>
               {allrequest != [] &&
                 allrequest?.map((obj) => (
                   <Card Obj={obj} fetchReq={fetchReq} />
                 ))}
-            </>
+            </div>
           )}
         </div>
       ) : (

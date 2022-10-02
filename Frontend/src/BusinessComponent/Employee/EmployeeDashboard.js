@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import RaiseIssueModal from "../../SmallComponents/RaiseIssueModal";
 import EmployeeDailyUpdate from "../../SmallComponents/EmployeeDailyUpdate";
 
-import { Progress, Tooltip, Modal, Input, notification } from "antd";
+import { Progress, Tooltip, notification } from "antd";
 import { FcClock } from "react-icons/fc";
 import { TiTick } from "react-icons/ti";
 import "./EmployeeDashboard.css";
@@ -12,24 +12,11 @@ import Todo from "../../SmallComponents/Todo";
 function EmployeeDashboard() {
   const userObj = useSelector((state) => state);
   const dispatch = useDispatch();
-  
 
   const [raiseIssueModal, setRaiseIssueModal] = useState(false);
-
   const handleRaiseIssue = () => {
     setRaiseIssueModal(true)
   };
-
-  const handleUpdate = () => {
-    setTimeout(()=>{
-      setRaiseIssueModal(false);
-      notification.open({
-        message: "Your Issue has been sent to the Admin!",
-        icon: <TiTick style={{ fontSize: "1.5rem", color: "#4BB543" }} />,
-      });
-    }, 200)
-
-  }
 
   return (
     <>
@@ -43,7 +30,7 @@ function EmployeeDashboard() {
               placement="leftTop"
               className="tooltip"
               title={
-                userObj.performanceMessage?.length == 0
+                userObj.performanceMessage == ""
                   ? "No Performance Message yet"
                   : userObj.performanceMessage
               }
@@ -76,7 +63,9 @@ function EmployeeDashboard() {
                       ? "Not Allocated"
                       : userObj.shiftOfCurrentMonth}
                   </div>
-                  <div style={{ color: "#7bd4fb" }}>4pm to 12pm</div>
+                  <div style={{ color: "#7bd4fb" }}>4pm to 12pm
+                    
+                  </div>
                 </div>
 
                 <div className="issuebtn" onClick={handleRaiseIssue}>
