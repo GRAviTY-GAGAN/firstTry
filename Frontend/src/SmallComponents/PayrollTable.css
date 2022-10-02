@@ -44,7 +44,7 @@
 .labelstyle {
     padding: 0.5rem;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     font-size: 1rem;
     font-weight: 400;
@@ -124,10 +124,10 @@ button.upspay {
     padding-top: 3px;
 }
 
-.upsdowns {
+.upsdownss {
     height: 3rem;
     width: 1rem;
-    margin-top: -8px;
+    margin-top: -33px;
     padding: 0px;
     display: flex;
     flex-direction: column;
@@ -137,5 +137,5 @@ button.upspay {
     align-items: center;
     gap: 0.1rem;
     margin-left: 0.2rem;
-    border: 1px solid green;
+    /* border: 1px solid green; */
 }
