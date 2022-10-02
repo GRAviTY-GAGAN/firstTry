@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Table, Space, Modal, Button, Dropdown, Menu } from "antd";
-import { GiPayMoney, GiTakeMyMoney } from "react-icons/gi";
-import { MdOutlineAttachMoney } from 'react-icons/md'
-import axios from "axios";
 import {
-  DownOutlined,
-  CaretUpOutlined,
-  CaretDownOutlined,
-} from "@ant-design/icons";
+  Table,
+  Space,
+  Modal,
+  Button,
+  Dropdown,
+  Menu,
+  notification,
+} from "antd";
+import { GiPayMoney, GiTakeMyMoney } from "react-icons/gi";
+import { MdOutlineAttachMoney } from "react-icons/md";
+import axios from "axios";
+import { DownOutlined } from "@ant-design/icons";
 import "./PayrollTable.css";
 
 function PayrollTable({ clickedBtn }) {
@@ -18,24 +22,35 @@ function PayrollTable({ clickedBtn }) {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [employeeDetails, setEmployeeDetails] = useState([]);
-  
+
+  const [salary, setSalary] = useState(0);
+  const [currentEmpId, setCurretEmpId] = useState();
+
   const getDepartmentName = (clickedBtn) => {
     switch (clickedBtn) {
       case 1:
         return "Engineering";
       case 2:
-        return "Product";
+        return "Operations";
       case 3:
-        return "HR";
+        return "Accounts";
       case 4:
-        return "Product";
-
+        return "Supply Chain";
       default:
         return "Engineering";
     }
   };
 
+  const openNotificationWithIcon = (type, mes, des) => {
+    notification[type]({
+      message: mes,
+      description: des,
+    });
+  };
+
   const fetchRequest = async () => {
+    setLoading(true);
+
     let departmentName = getDepartmentName(clickedBtn);
     let response = await axios({
       method: "get",
@@ -43,6 +58,8 @@ function PayrollTable({ clickedBtn }) {
     });
     console.log("from payroll table", response.data);
     setAllRequest(response.data);
+
+    response.status == 200 && setLoading(false);
 
     response?.data.map((obj, idx) => {
       setMainData((mainData) => [
@@ -61,19 +78,35 @@ function PayrollTable({ clickedBtn }) {
     });
     console.log(mainData[0][1], "from PayrollTable maindata01");
   };
-
   useEffect(() => {
     setMainData([]);
 
     fetchRequest();
   }, [clickedBtn]);
 
+  async function updateSalary(salary) {
+    let responseObj = await axios({
+      method: "post",
+      url: `http://localhost:5000/admin/salary/${currentEmpId}`,
+      data: {
+        salary: salary,
+      },
+    });
+    openNotificationWithIcon(
+      "success",
+      "User Salary Updated",
+      ` Salary of Employee ${currentEmpId} is updated   `
+    );
+    handleCancel();
+    setAllRequest([]);
+  }
+
   const handleOk = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setVisible(false);
-    }, 3000);
+    }, 200);
   };
 
   const handleCancel = () => {
@@ -83,11 +116,9 @@ function PayrollTable({ clickedBtn }) {
   const showModal = (record, rowIndex) => {
     setVisible(true);
     setEmployeeDetails(record);
+    setCurretEmpId(record[0]);
+    console.log(record[0]);
     console.log(record, "record after click");
-  };
-
-  const updateDetails = () => {
-    alert("Holaaaa");
   };
 
   const onClick = ({ key }) => {
@@ -155,6 +186,7 @@ function PayrollTable({ clickedBtn }) {
     <div className="dtoc">
       <div>
         <Table
+          loading={loading}
           style={{ padding: "5px" }}
           dataSource={mainData}
           columns={columns}
@@ -174,7 +206,7 @@ function PayrollTable({ clickedBtn }) {
         onCancel={handleCancel}
         footer={[
           <div className="empdetailsmodel">
-            <div onClick={updateDetails} className="updateBtn">
+            <div onClick={() => updateSalary(salary)} className="updateBtn">
               {" "}
               Update{" "}
             </div>
@@ -370,7 +402,7 @@ function PayrollTable({ clickedBtn }) {
                   fontSize: "1.2rem",
                   marginTop: "0.3rem",
                   // color: "#A4A6B3",
-                  fontWeight:'400'
+                  fontWeight: "400",
                 }}
               >
                 Enter in Lakhs
@@ -378,8 +410,8 @@ function PayrollTable({ clickedBtn }) {
               <input
                 placeholder="  "
                 className="inputShift"
-                readOnly
-                type="text"
+                type="number"
+                onChange={(e) => setSalary(e.target.value)}
               />
             </div>
           </div>

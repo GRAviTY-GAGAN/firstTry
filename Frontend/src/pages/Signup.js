@@ -17,7 +17,7 @@ import {
   PHONENO,
 } from "../redux/types";
 
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, notification, Spin } from "antd";
 import { motion } from "framer-motion";
 import "./Signup.css";
 
@@ -28,6 +28,7 @@ const Signup = () => {
   const [form] = Form.useForm();
 
   const [responseToNext, setResponseToNext] = useState(false);
+   const [spinner, setSpinner] = useState(false);
 
   const userObj = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -38,6 +39,13 @@ const Signup = () => {
       type: SIGNIN,
     });
   }, [])
+
+  const openNotificationWithIcon = (type, mes, des) => {
+    notification[type]({
+      message: mes,
+      description: des,
+    });
+  };
   
   const verifySignup = async (userDataObj) => {
     console.log(userDataObj, "<--- user Object ");
@@ -62,6 +70,13 @@ const Signup = () => {
 
     if (response.status === 200) {
       setResponseToNext(true);
+    } else {
+      openNotificationWithIcon(
+        "error",
+        "Please try again",
+        "Incorrect user credentials"
+      );
+      setSpinner(false);
     }
   };
 
@@ -269,7 +284,7 @@ const Signup = () => {
                 //   dispatch({ type: DEP, deparatment: e.target.value });
                 // }}
                 onChange={(e) => {
-                  console.log(e, 'from inside select')
+                  console.log(e, "from inside select");
                   dispatch({ type: DEP, deparatment: e });
                 }}
                 allowClear
@@ -329,7 +344,16 @@ const Signup = () => {
                     verifySignup(userObj);
                   }}
                 >
-                  <motion.div whileTap={{ scale: 1.1 }}>Sign up</motion.div>
+                  <motion.div whileTap={{ scale: 1.1 }}>
+                    {spinner == false ? (
+                      "Sign up"
+                    ) : (
+                      <>
+                        {" "}
+                        <Spin tip="Signing In..." />{" "}
+                      </>
+                    )}
+                  </motion.div>
                 </Button>
                 {responseToNext === true && (
                   <Navigate

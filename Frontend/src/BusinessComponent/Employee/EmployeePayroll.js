@@ -7,10 +7,32 @@ import { BiRupee } from "react-icons/bi";
 import { FaEdit } from "react-icons/fa";
 import { VscWorkspaceUntrusted } from "react-icons/vsc";
 import "./EmployeePayroll.css";
+import axios from "axios";
 
 function EmployeePayroll() {
   const [raiseIssueModal, setRaiseIssueModal] = useState(false);
   const userObj = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+
+  const monthlyPay = Math.ceil(userObj.PayrollMangement.salary / 12);
+  const dayPay = Math.ceil(monthlyPay / 30);
+
+  async function updateSalary(sal) {
+    
+    let responseObj = await axios({
+      method: "post",
+      url: `http://localhost:5000/admin/salary/${userObj.id}`,
+      data: {
+        salary: sal,
+      },
+    });
+
+    dispatch({
+      type : 'login',
+      payload : responseObj.data
+    })
+  }
 
   return (
     <div className="mainstyle">
@@ -20,14 +42,15 @@ function EmployeePayroll() {
       </div>
 
       <div className="btnctn">
-        <div className="btnpr editbtn">
+        <div className="btnpr editbtn" 
+        // onClick={updateSalary(10)}
+        >
           {" "}
           <span>
             {" "}
             <FaEdit
               style={{
                 paddingTop: "7px",
-                // color: "#5FD068",
                 fontSize: "20px",
               }}
             />{" "}
@@ -58,10 +81,7 @@ function EmployeePayroll() {
         setRaiseIssueModal={setRaiseIssueModal}
       />
 
-      <div
-        className="empprstyle"
-        style={{ width: "100%"}}
-      >
+      <div className="empprstyle" style={{ width: "100%" }}>
         <div style={{ width: "50%" }}>
           <h2>
             {" "}
@@ -132,7 +152,7 @@ function EmployeePayroll() {
                 >
                   <BiRupee />
                 </div>
-                <div>75000/- </div>
+                <div>{monthlyPay}/-</div>
               </div>
             </div>
 
@@ -149,7 +169,9 @@ function EmployeePayroll() {
                 >
                   <BiRupee />
                 </div>
-                <div>55000/- </div>
+                <div>
+                  {monthlyPay - userObj.leavesTakenInMonth * dayPay} /-{" "}
+                </div>
               </div>
             </div>
           </div>
@@ -170,10 +192,8 @@ function EmployeePayroll() {
                 </div>
                 <div>
                   {" "}
-                  10LPA + 50K <span className="cardtxt">
-                    {" "}
-                    (Performance)
-                  </span>{" "}
+                  {userObj.PayrollMangement.salary} + 50K{" "}
+                  <span className="cardtxt"> (Performance)</span>{" "}
                 </div>
               </div>
             </div>
