@@ -17,6 +17,7 @@ import {
 import axios from "axios";
 import "antd/dist/antd.min.css";
 import "./DashboardTableOne.css";
+import TextArea from "antd/lib/input/TextArea";
 
 const DashboardTableOne = ({ clickedBtn }) => {
   const [loading, setLoading] = useState(false);
@@ -24,19 +25,60 @@ const DashboardTableOne = ({ clickedBtn }) => {
   const [allrequest, setAllRequest] = useState([]);
   const [getValue, setGetValue] = useState("");
   const [employeeDetails, setEmployeeDetails] = useState({});
+  const [scoreOne, setScoreOne] = useState(0);
+  const [scoreTwo, setScoreTwo] = useState(0);
+  const [scoreThree, setScoreThree] = useState(0);
+  const [scoreFour, setScoreFour] = useState(0);
   const [score, setScore] = useState(0);
   const [currentEmpId, setCurrentEmpId] = useState("");
   const [performanceMessage, setPerformanceMessage] = useState("");
 
-  const increaseScore = () => {
-    if (score < 10) {
-      setScore(score + 1);
+
+  const increaseScoreOne = () => {
+    if (scoreOne < 10) {
+      setScoreOne(scoreOne + 1);
     }
   };
 
-  const decreaseScore = () => {
-    if (score > 0) {
-      setScore(score - 1);
+  const decreaseScoreOne = () => {
+    if (scoreOne > 0) {
+      setScoreOne(scoreOne - 1);
+    }
+  };
+
+  const increaseScoreTwo = () => {
+    if (scoreTwo < 10) {
+      setScoreTwo(scoreTwo + 1);
+    }
+  };
+
+  const decreaseScoreTwo = () => {
+    if (scoreTwo > 0) {
+      setScoreTwo(scoreTwo - 1);
+    }
+  };
+
+  const increaseScoreThree = () => {
+    if (scoreThree < 10) {
+      setScoreThree(scoreThree + 1);
+    }
+  };
+
+  const decreaseScoreThree = () => {
+    if (scoreThree > 0) {
+      setScoreThree(scoreThree - 1);
+    }
+  };
+
+  const increaseScoreFour = () => {
+    if (scoreFour < 10) {
+      setScoreFour(scoreFour + 1);
+    }
+  };
+
+  const decreaseScoreFour = () => {
+    if (scoreFour > 0) {
+      setScoreFour(scoreFour - 1);
     }
   };
 
@@ -216,10 +258,17 @@ const DashboardTableOne = ({ clickedBtn }) => {
         onCancel={handleCancel}
         footer={[
           <div className="btncontainermodal">
-            <div className="dbtnmodal approve">
-              <div onClick={updateDetails} className="btntext">
+            <div className="dbtnmodal approve" style={{width: '13rem'}}
+    >
+              <div  className="btntext">
                 {" "}
-                Update{" "}
+                Update Performance{" "}
+              </div>
+            </div>
+            <div className="dbtnmodal approve">
+              <div className="btntext">
+                {" "}
+                Update Shift{" "}
               </div>
             </div>
           </div>,
@@ -269,7 +318,7 @@ const DashboardTableOne = ({ clickedBtn }) => {
           </p>
         </div>
 
-        <div>
+        {/* <div>
           <div className="mcontainer">
             <span className="material-symbols-outlined performanceIcon">
               insert_chart
@@ -353,9 +402,161 @@ const DashboardTableOne = ({ clickedBtn }) => {
               </p>
             </div>
           </div>
+        </div> // */}
+
+        <div>
+        <div>
+          <div className="pmcontainer">
+            <span className="material-symbols-outlined performanceIcon">
+              insert_chart
+            </span>
+            <strong> Performance</strong>
+          </div>
+
+          <div className="econtainer">
+            <div className="labelstyle">
+              <label>Communication</label>
+              <input
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid #A4A6B3",
+                  outline: "none",
+                  textAlign: "center",
+                  padding: "0.4rem",
+                  margin: '0 1rem 0 2rem'
+                }}
+                type="number"
+                placeholder="1 - 10"
+                value={scoreOne}
+                readOnly
+              />
+              <div className="upsdownss"  >
+                <button className="ups">< CaretUpOutlined onClick={increaseScoreOne} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
+                <button className="downs"><CaretDownOutlined onClick={decreaseScoreOne} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
+                </div>
+            </div>
+
+            <div className="labelstyle">
+              <label style={{ display: "" }}>Leadership</label>
+              
+              <input
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid #A4A6B3",
+                  outline: "none",
+                  textAlign: "center",
+                  padding: "0.4rem",
+                  margin: '0 1rem 0 4.2rem'
+                }}
+                type="number"
+                placeholder="1 - 10"
+                value={scoreTwo}
+                readOnly
+              />
+              <div className="upsdownss"  >
+                <button className="ups">< CaretUpOutlined onClick={increaseScoreTwo} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
+                <button className="downs"><CaretDownOutlined onClick={decreaseScoreTwo} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
+                </div>
+                
+            </div>
+
+            <div className="labelstyle">
+              <label> Helping </label>
+              <input
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid #A4A6B3",
+                  outline: "none",
+                  textAlign: "center",
+                  padding: "0.4rem",
+                  margin: '0 1rem 0 5.5rem'
+                }}
+                type="number"
+                placeholder="1 - 10"
+                value={scoreThree}
+                readOnly
+              />
+              <div className="upsdownss"  >
+                <button className="ups">< CaretUpOutlined onClick={increaseScoreThree} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
+                <button className="downs"><CaretDownOutlined onClick={decreaseScoreThree} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
+                </div>
+            </div>
+
+            <div className="labelstyle">
+              <label> Others </label>
+              <input
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid #A4A6B3",
+                  outline: "none",
+                  textAlign: "center",
+                  padding: "0.4rem",
+                  margin: '0 1rem 0 6rem'
+                }}
+                type="number"
+                placeholder="1 - 10"
+                value={scoreFour}
+                readOnly
+              />
+              <div className="upsdownss"  >
+                <button className="ups">< CaretUpOutlined onClick={increaseScoreFour} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
+                <button className="downs"><CaretDownOutlined onClick={decreaseScoreFour} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
+                </div>
+            </div>
+
+            <div className="labelstyle">
+              <label>  Message </label>
+              <TextArea
+                style={{
+                  borderRadius: "5px",
+                  padding: "0.4rem",
+                  margin: '0 1rem 0 5rem',
+                  maxWidth: '14rem',
+                  height: '2.7rem'
+                }}
+                placeholder="Performance Message"
+              />
+              
+            </div>
+
+          </div>
+        </div>
         </div>
 
         <div>
+          <div className="pmcontainer">
+            <span className="material-symbols-outlined performanceIcon">
+              work_history
+            </span>
+            <strong>Select Shift Hours</strong>
+          </div>
+
+          <div className="econtainer">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                aligItem: "center",
+                width: "100%",
+              }}
+            >
+              <Dropdown overlay={menu}>
+                <Space style={{ fontSize: "1rem" }}>
+                  Select shift hours
+                  <DownOutlined />
+                </Space>
+              </Dropdown>
+              <input
+                className="inputShift"
+                readOnly
+                type="text"
+                value={getValue}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* <div>
           <div className="mcontainer">
             <span
               style={{ color: "#6075fe", marginRight: "5px" }}
@@ -386,7 +587,7 @@ const DashboardTableOne = ({ clickedBtn }) => {
               </Dropdown>
             </div>
           </div>
-        </div>
+        </div> */}
       </Modal>
     </div>
   );

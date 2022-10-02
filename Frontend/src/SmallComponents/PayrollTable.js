@@ -243,7 +243,7 @@ function PayrollTable({ clickedBtn }) {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <div className="pmcontainer">
             <span className="material-symbols-outlined performanceIcon">
               insert_chart
@@ -261,27 +261,41 @@ function PayrollTable({ clickedBtn }) {
                   outline: "none",
                   textAlign: "center",
                   padding: "0.4rem",
-                  marginRight: "20%",
+                  margin: '0 1rem 0 2rem'
                 }}
                 type="number"
-                placeholder="0 - 9"
+                placeholder="1 - 10"
+                value={scoreOne}
+                readOnly
               />
+              <div className="upsdownss"  >
+                <button className="ups">< CaretUpOutlined onClick={increaseScoreOne} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
+                <button className="downs"><CaretDownOutlined onClick={decreaseScoreOne} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
+                </div>
             </div>
 
             <div className="labelstyle">
-              <label style={{ display: "flex" }}>Leadership</label>
+              <label style={{ display: "" }}>Leadership</label>
+              
               <input
                 style={{
                   borderRadius: "5px",
-                  marginRight: "20%",
                   border: "1px solid #A4A6B3",
                   outline: "none",
                   textAlign: "center",
                   padding: "0.4rem",
+                  margin: '0 1rem 0 4.2rem'
                 }}
                 type="number"
-                placeholder="0 - 9"
+                placeholder="1 - 10"
+                value={scoreTwo}
+                readOnly
               />
+              <div className="upsdownss"  >
+                <button className="ups">< CaretUpOutlined onClick={increaseScoreTwo} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
+                <button className="downs"><CaretDownOutlined onClick={decreaseScoreTwo} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
+                </div>
+                
             </div>
 
             <div className="labelstyle">
@@ -289,20 +303,48 @@ function PayrollTable({ clickedBtn }) {
               <input
                 style={{
                   borderRadius: "5px",
-                  marginRight: "20%",
                   border: "1px solid #A4A6B3",
                   outline: "none",
                   textAlign: "center",
                   padding: "0.4rem",
+                  margin: '0 1rem 0 5.5rem'
                 }}
                 type="number"
-                placeholder="0 - 9"
+                placeholder="1 - 10"
+                value={scoreThree}
+                readOnly
               />
+              <div className="upsdownss"  >
+                <button className="ups">< CaretUpOutlined onClick={increaseScoreThree} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
+                <button className="downs"><CaretDownOutlined onClick={decreaseScoreThree} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
+                </div>
+            </div>
+
+            <div className="labelstyle">
+              <label> Others </label>
+              <input
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid #A4A6B3",
+                  outline: "none",
+                  textAlign: "center",
+                  padding: "0.4rem",
+                  margin: '0 1rem 0 6rem'
+                }}
+                type="number"
+                placeholder="1 - 10"
+                value={scoreFour}
+                readOnly
+              />
+              <div className="upsdownss"  >
+                <button className="ups">< CaretUpOutlined onClick={increaseScoreFour} style={{ height:'1.2rem',fontSize:'20px', textAlign:'center', color:'#6ff16f', cursor: 'default' }} /></button>
+                <button className="downs"><CaretDownOutlined onClick={decreaseScoreFour} style={{ height:'1.2rem' , fontSize:'20px', textAlign:'center', color:'red', cursor: 'default'}} /></button>
+                </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <div className="pmcontainer">
             <span className="material-symbols-outlined performanceIcon">
               work_history
@@ -333,7 +375,7 @@ function PayrollTable({ clickedBtn }) {
               />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div>
           <div className="pmcontainer">
