@@ -29,6 +29,7 @@ adminRouter.route("/leave/approve/:id").post(approveRequest);
 // Performance Message and shift update and bug of leave management.
 adminRouter.route("/shift/:id").post(updateEmployeeShift);
 adminRouter.route("/performance/:id").post(updatePerformance);
+adminRouter.route("/performance/score/:id").post(updatePerformanceScore);
 
 
 // salary update 
@@ -57,14 +58,14 @@ async function updatePerformance(req, res){
   let empId = req.params.id;
   let dataObj = req.body;
 
-  let performanceScore = Math.ceil((dataObj.performanceScore / 40) * 100);
+  // let performanceScore = Math.ceil((dataObj.performanceScore / 40) * 100);
 
   let responseObj = await UserModel.findOneAndUpdate(
     { id: empId },
     {
       $set: {
         performanceMessage: dataObj.performanceMessage,
-        performanceOfPerviousMonth : performanceScore
+        // performanceOfPerviousMonth : performanceScore
       },
     },
     { new: true }
@@ -72,6 +73,28 @@ async function updatePerformance(req, res){
 
   res.json(responseObj)
 
+}
+
+async function updatePerformanceScore(req, res) {
+  let empId = req.params.id;
+  let dataObj = req.body;
+
+  console.log(dataObj.performanceScore);
+
+  let performanceScore = Math.ceil((dataObj.performanceScore / 40) * 100);
+
+  let responseObj = await UserModel.findOneAndUpdate(
+    { id: empId },
+    {
+      $set: {
+        // performanceMessage: dataObj.performanceMessage,
+        performanceOfPerviousMonth: performanceScore,
+      },
+    },
+    { new: true }
+  );
+
+  res.json(responseObj);
 }
 
 // <--------All Department Request--------------------------------------------------------------------------------------->

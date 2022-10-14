@@ -243,7 +243,7 @@ function PayrollTable({ clickedBtn }) {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <div className="pmcontainer">
             <span className="material-symbols-outlined performanceIcon">
               insert_chart
@@ -333,7 +333,7 @@ function PayrollTable({ clickedBtn }) {
               />
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div>
           <div className="pmcontainer">

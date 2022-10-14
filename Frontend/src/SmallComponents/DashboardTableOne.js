@@ -9,6 +9,8 @@ import {
   Progress,
   notification,
 } from "antd";
+import TextArea from "antd/lib/input/TextArea";
+
 import {
   DownOutlined,
   CaretUpOutlined,
@@ -28,6 +30,7 @@ const DashboardTableOne = ({ clickedBtn }) => {
   const [currentEmpId, setCurrentEmpId] = useState("");
   const [performanceMessage, setPerformanceMessage] = useState("");
 
+  // ------------------------------------------------------------------------------------------------------------------------------
   const increaseScore = () => {
     if (score < 10) {
       setScore(score + 1);
@@ -39,7 +42,7 @@ const DashboardTableOne = ({ clickedBtn }) => {
       setScore(score - 1);
     }
   };
-
+  // --------------------------------------------------------------------------------------------------------------
   const showModal = (record) => {
     console.log(record);
     setVisible(true);
@@ -48,13 +51,6 @@ const DashboardTableOne = ({ clickedBtn }) => {
   };
 
   const updateDetails = () => {
-    // setEmployeeDetails({
-    //   ...employeeDetails,
-    //   shift: getValue,
-    //   remainingLeaves: 110,
-    // });
-    // console.log(employeeDetails, "From Update");
-
     updatePerformanceMessage(performanceMessage);
     setVisible(false);
   };
@@ -183,13 +179,15 @@ const DashboardTableOne = ({ clickedBtn }) => {
       },
     });
 
-    responseObj.status == 200
-      ? openNotificationWithIcon(
-          "success",
-          "Performance Message Update",
-          ` Performance Message to Employee ${currentEmpId} has been updated`
-        )
-      : <></>;
+    responseObj.status == 200 ? (
+      openNotificationWithIcon(
+        "success",
+        "Performance Message Update",
+        ` Performance Message to Employee ${currentEmpId} has been updated`
+      )
+    ) : (
+      <></>
+    );
   }
 
   return (
@@ -292,9 +290,13 @@ const DashboardTableOne = ({ clickedBtn }) => {
                 <div className="progress">
                   <Progress
                     type="circle"
-                    percent={35}
+                    percent={employeeDetails.performanceOfPerviousMonth}
                     width={120}
-                    status={35 < 35 ? "exception " : ""}
+                    status={
+                      employeeDetails.performanceOfPerviousMonth < 35
+                        ? "exception "
+                        : ""
+                    }
                   />
                 </div>
               </div>
